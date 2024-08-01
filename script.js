@@ -7,8 +7,8 @@ const openModal = document.querySelectorAll('.open-panel');
 const panel = document.querySelector('.open-account-panel');
 const overlay = document.querySelector('.overlay');
 const closeModal = document.querySelector('.close-btn');
-
 const header = document.querySelector('.header');
+
 // console.log(openModal);
 
 const openPanel = function (e) {
@@ -39,9 +39,7 @@ overlay.addEventListener('click', closePanel);
 
 //selecting elements in DOM
 // console.log(document); //it will contain our whole document html document
-console.log(document.documentElement); // it will contain only the element inside the whole document // body and head
-console.log(document.body);
-console.log(document.head);
+// console.log(document.documentElement); // it will contain only the element inside the whole document // body and head
 
 //selecting elements
 // const allSections = document.getElementsByClassName('section'); //Returns a HTML collection rather than a nodelist
@@ -319,7 +317,6 @@ headerObserver.observe(header);
 
 //Displaying sections on scoll
 const sectionToShow = document.querySelectorAll('.section');
-console.log(sectionToShow);
 const sectionObserver = new IntersectionObserver(
   (entries, observer) => {
     const [entry] = entries;
@@ -354,3 +351,76 @@ const lazyOptions = {
 };
 const imageObserver = new IntersectionObserver(lazyCallback, lazyOptions);
 lazyImages.forEach(img => imageObserver.observe(img));
+
+//working on testimonials and arrow buttons
+const slides = document.querySelectorAll('.slide');
+const dotContainer = document.querySelector('.dots');
+const arrowBtn = document.querySelectorAll('.arrow-btn');
+slides.forEach((slide, i) => {
+  slide.style.transform = `translateX(${i * 100}%)`;
+  const markup = `<div class="dot ${
+    i === 0 ? 'active' : ''
+  }" data-dot-no="${i}"></div>`;
+  console.log(markup);
+  dotContainer.insertAdjacentHTML('beforeend', markup);
+});
+
+let currentSlide = 0;
+
+const dots = dotContainer.querySelectorAll('.dot');
+const handleDotsClass = function () {
+  dots.forEach(dot => {
+    dot.classList.remove('active');
+  });
+
+  dots.forEach(dot => {
+    if (currentSlide === +dot.dataset.dotNo) {
+      dot.classList.add('active');
+    }
+  });
+};
+
+const goToSlide = function () {
+  slides.forEach((slide, i) => {
+    slide.style.transform = `translateX(${(i - currentSlide) * 100}%)`;
+  });
+};
+const rightArrowHandle = function () {
+  currentSlide++;
+
+  if (currentSlide === slides.length) currentSlide = 0;
+  console.log(currentSlide);
+  slides.forEach((slide, i) => {
+    slide.style.transform = `translateX(${(i - currentSlide) * 100}%)`;
+  });
+  handleDotsClass();
+};
+
+const leftArrowHandle = function () {
+  currentSlide--;
+  if (currentSlide === -1) {
+    currentSlide = 0;
+    return;
+  }
+  console.log(currentSlide);
+  slides.forEach((slide, i) => {
+    slide.style.transform = `translateX(${-(currentSlide - i) * 100}%)`;
+  });
+  handleDotsClass();
+};
+
+arrowBtn.forEach(btn =>
+  btn.addEventListener('click', function (e) {
+    e.target.classList.contains('right-arrow')
+      ? rightArrowHandle()
+      : leftArrowHandle();
+  })
+);
+
+dotContainer.addEventListener('click', function (e) {
+  if (!e.target.classList.contains('dot')) return;
+  currentSlide = +e.target.dataset.dotNo;
+  console.log(currentSlide);
+  goToSlide();
+  handleDotsClass();
+});

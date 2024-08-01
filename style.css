@@ -368,8 +368,10 @@ img {
   height: 50rem;
   margin: 0 auto;
   position: relative;
-  margin-top: 12.6rem;
+  /* margin-top: 6rem; */
   /* background-color: #fff; */
+  overflow-x: hidden;
+  /* padding-top: 3.2rem; */
 }
 .left-arrow,
 .right-arrow {
@@ -392,6 +394,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.5s;
 }
 .testimonial {
   width: 65%;
@@ -405,10 +408,10 @@ img {
 .review-heading::before {
   display: block;
   content: '\201C';
-  top: -9.4rem;
+  top: -6rem;
   color: var(--color-primary);
   font-weight: 300;
-  left: -6.4rem;
+  left: -8rem;
   font-size: 16rem;
   position: absolute;
 }
@@ -446,12 +449,34 @@ blockquote {
   border: 3.5px solid var(--color-primary);
   width: 100%;
 }
+
 .right-arrow {
-  right: 0;
+  right: 5%;
   transform: translate(50%, -50%);
 }
 .left-arrow {
+  left: 5%;
   transform: translate(-50%, -50%);
+}
+
+.dots {
+  position: absolute;
+  display: flex;
+  gap: 5px;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.dot {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: solid #bbb 1px;
+  box-shadow: 0 1.5px 3px 0 #00000031;
+  cursor: pointer;
+}
+.dot.active {
+  background-color: #aaa;
 }
 
 /*JOIN NOW SECTION*/
